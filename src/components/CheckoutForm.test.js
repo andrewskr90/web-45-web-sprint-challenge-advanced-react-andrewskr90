@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 // import * as rtl from 'react-testing-library'
 import CheckoutForm from "./CheckoutForm";
 import userEvent from "@testing-library/user-event";
@@ -43,16 +43,27 @@ test("form shows success message on submit with form details", async () => {
     const submitButton = screen.getByRole("button");
     userEvent.click(submitButton);
 
-    const submission = await screen.findByText(/you have ordered some plants! woo-hoo!/i);
-    expect(submission).toBeInTheDocument();
+    // const submission = await screen.getByText(/you have ordered some plants! woo-hoo!/i);
+    // expect(submission).toBeInTheDocument();
+    // expect(firstNameInput).within()
+
+    const submission = await screen.getByTestId('successMessage')
+    expect(submission).toHaveTextContent('You have ordered some plants! Woo-hoo!')
+    expect(submission).toHaveTextContent(firstName)
+    expect(submission).toHaveTextContent(lastName)
+    expect(submission).toHaveTextContent(address)
+    expect(submission).toHaveTextContent(city)
+    expect(submission).toHaveTextContent(state)
+    expect(submission).toHaveTextContent(zip)
+    
+        
+    
 
     // const submissionPromise = screen.getByText(/You have ordered some plants! Woo-hoo!/i)
     // submissionPromise
     //     .then(res => expect(res).toBeInTheDocument())
-    //     .catch(err => {console.log('errpr')})
 
     // await waitFor(() => {
-
     //     const submission = screen.getByTestId('successMessage')
     //     expect(submission)
 
